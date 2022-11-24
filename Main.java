@@ -1,30 +1,39 @@
 package Game;
 
+import Game.Healer.Monk;
+import Game.Healer.Wizard;
+import Game.Shooter.Crossbow;
+import Game.Shooter.Sniper;
+import Game.Warrior.Lancer;
+import Game.Warrior.Peasant;
+import Game.Warrior.Robber;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Npc> team = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            int number = (int) (Math.random() * 7);
+        ArrayList<Npc> white = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            int number = (int) (Math.random() * 5);
             switch (number) {
-                case 0 -> team.add(new Crossbow());
-                case 1 -> team.add(new Lancer());
-                case 2 -> team.add(new Monk());
-                case 3 -> team.add(new Peasant());
-                case 4 -> team.add(new Robber());
-                case 5 -> team.add(new Sniper());
-                case 6 -> team.add(new Wizard());
+                case 0 -> white.add(new Peasant(white));
+                case 1 -> white.add(new Lancer(white));
+                case 2 -> white.add(new Crossbow(white));
+                case 3 -> white.add(new Monk(white));
+                case 4 -> white.add(new Robber(white));
             }
         }
-        List<Class> classList = List.of(Crossbow.class,
-                                        Lancer.class,
-                                        Monk.class,
-                                        Peasant.class,
-                                        Robber.class,
-                                        Sniper.class,
-                                        Wizard.class);
-        classList.forEach(c -> Action.getNpc(c, team));
+        ArrayList<Npc> black = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            int number = (int) (Math.random() * 4);
+            switch (number) {
+                case 0 -> black.add(new Peasant(black));
+                case 1 -> black.add(new Robber(black));
+                case 2 -> black.add(new Sniper(black));
+                case 3 -> black.add(new Wizard(black));
+            }
+        }
+        white.forEach(hero -> System.out.println(hero.getInfo()));
+        black.forEach(hero -> System.out.println(hero.getInfo()));
     }
 }

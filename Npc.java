@@ -1,108 +1,67 @@
 package Game;
 
+import Game.Sources.BaseInterface;
+import Game.Sources.Status;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class Npc implements Action {
+public abstract class Npc implements BaseInterface {
     private final int attack;
     private final int protection;
     private final int shots;
     private final int[] damage;
-    private int health;
+    private int hp;
+    private final int maxHp;
     private final int speed;
-    private final boolean magic;
+    private Status state;
+    protected ArrayList<Npc> team;
 
-
-    private boolean state;
-
-    @Override
-    public boolean checkState() {
-        return isState();
-    }
-
-    public Npc(int attack, int protection, int shots, int[] damage, int health, int speed, boolean magic) {
+    public Npc(int attack, int protection, int shots, int[] damage, int hp, int speed) {
         this.attack = attack;
         this.protection = protection;
         this.shots = shots;
         this.damage = damage;
-        this.health = health;
+        this.hp = hp;
         this.speed = speed;
-        this.magic = magic;
-        state = true;
+        maxHp = hp;
+        state = Status.STAND;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public int getHp() {
+        return hp;
     }
 
-    public int getHealth() {
-        return health;
+    public void setHp(int hp) {
+        if (hp > getMaxHp()) this.hp = maxHp;
+        else this.hp = hp;
     }
 
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public int getProtection() {
-        return protection;
+    public int getMaxHp() {
+        return maxHp;
     }
 
     public int[] getDamage() {
         return damage;
     }
 
-    /**
-     * Атакует hero
-     */
-    @Override
-    public void interaction(Npc hero) {
-        if (!hero.checkState() || !checkState()) return;
+    public Status getState() {
+        return state;
+    }
 
-        if (hero.getClass() == Wizard.class || hero.getClass() == Monk.class)
-            return;
-
-        if (getAttack() > hero.getProtection())
-            hero.setHealth(hero.getHealth() - getDamage()[1]);
-        else
-            hero.setHealth(hero.getHealth() - getDamage()[0]);
-
-        if (hero.getHealth() < 1)
-            hero.setState(false);
+    public ArrayList<Npc> getTeam() {
+        return team;
     }
 
     @Override
-    public void duel(Npc hero) {
-        if (!hero.checkState() || !checkState()) return;
-
-        while (getHealth() > 0 && hero.getHealth() > 0) {
-            hero.setHealth(hero.getHealth() - getDamage()[0]);
-            if (hero.getHealth() < 1) {
-                hero.setState(false);
-                return;
-            }
-            setHealth(getHealth() - hero.getDamage()[0]);
-        }
-        setState(false);
-    }
-
-    @Override
-    public String toString() {
+    public String getInfo() {
         return getClass().getSimpleName() +
                 ": attack: " + attack +
                 ", protection: " + protection +
                 ", shots: " + shots +
                 ", damage: " + Arrays.toString(damage) +
-                ", health: " + health +
+                ", health: " + hp +
                 ", speed: " + speed +
-                ", magic: " + magic +
                 ", state: " + state;
     }
-
 }
