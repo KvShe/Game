@@ -1,6 +1,6 @@
-package Game.Warrior;
+package Game.Heroes.Warrior;
 
-import Game.Npc;
+import Game.Heroes.Npc;
 
 import java.util.List;
 

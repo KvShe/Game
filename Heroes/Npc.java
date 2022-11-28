@@ -1,7 +1,7 @@
-package Game;
+package Game.Heroes;
 
-import Game.Sources.BaseInterface;
-import Game.Sources.Status;
+import Game.AnsiColors;
+import Game.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +16,7 @@ public abstract class Npc implements BaseInterface {
     private final int speed;
     private Status state;
     protected ArrayList<Npc> team;
+    protected Vector vector;
 
     public Npc(int attack, int protection, int shots, int[] damage, int hp, int speed) {
         this.attack = attack;
@@ -53,9 +54,13 @@ public abstract class Npc implements BaseInterface {
         return team;
     }
 
+    public Vector getVector() {
+        return vector;
+    }
+
     @Override
     public String getInfo() {
-        return getClass().getSimpleName() +
+        return AnsiColors.ANSI_CYAN + getClass().getSimpleName() + AnsiColors.ANSI_RESET +
                 ": attack: " + attack +
                 ", protection: " + protection +
                 ", shots: " + shots +
@@ -63,5 +68,17 @@ public abstract class Npc implements BaseInterface {
                 ", health: " + hp +
                 ", speed: " + speed +
                 ", state: " + state;
+    }
+
+    @Override
+    public String toString() {
+        return "vector=" + vector;
+    }
+
+    public void setVector(Vector vector) {
+        this.vector = vector;
+    }
+    public void move(int x, int y) {
+        setVector(new Vector(y, x));
     }
 }

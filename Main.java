@@ -1,39 +1,53 @@
 package Game;
 
-import Game.Healer.Monk;
-import Game.Healer.Wizard;
-import Game.Shooter.Crossbow;
-import Game.Shooter.Sniper;
-import Game.Warrior.Lancer;
-import Game.Warrior.Peasant;
-import Game.Warrior.Robber;
+import Game.Heroes.Healer.Monk;
+import Game.Heroes.Healer.Wizard;
+import Game.Heroes.Npc;
+import Game.Heroes.Shooter.Crossbow;
+import Game.Heroes.Shooter.Sniper;
+import Game.Heroes.Warrior.Lancer;
+import Game.Heroes.Warrior.Peasant;
+import Game.Heroes.Warrior.Robber;
 
 import java.util.ArrayList;
 
 public class Main {
+    public static final int TEAM_SIZE = 10;
+    public static ArrayList<Npc> blue;
+    public static ArrayList<Npc> green;
+
     public static void main(String[] args) {
-        ArrayList<Npc> white = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        init();
+        View.board();
+        blue.get(0).move(0, 2);
+        green.get(0).move(0, 3);
+        View.board();
+    }
+
+    private static void init() {
+        blue = new ArrayList<>();
+        green = new ArrayList<>();
+
+        int x = 0, y = 0;
+        for (int i = 0; i < TEAM_SIZE; i++) {
             int number = (int) (Math.random() * 5);
             switch (number) {
-                case 0 -> white.add(new Peasant(white));
-                case 1 -> white.add(new Lancer(white));
-                case 2 -> white.add(new Crossbow(white));
-                case 3 -> white.add(new Monk(white));
-                case 4 -> white.add(new Robber(white));
+                case 0 -> blue.add(new Peasant(blue, x, y++));
+                case 1 -> blue.add(new Lancer(blue, x, y++));
+                case 2 -> blue.add(new Crossbow(blue, x, y++));
+                case 3 -> blue.add(new Monk(blue, x, y++));
+                case 4 -> blue.add(new Robber(blue, x, y++));
             }
         }
-        ArrayList<Npc> black = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        y = 0;
+        for (int i = 0; i < TEAM_SIZE; i++) {
             int number = (int) (Math.random() * 4);
             switch (number) {
-                case 0 -> black.add(new Peasant(black));
-                case 1 -> black.add(new Robber(black));
-                case 2 -> black.add(new Sniper(black));
-                case 3 -> black.add(new Wizard(black));
+                case 0 -> green.add(new Peasant(green, TEAM_SIZE - 1, y++));
+                case 1 -> green.add(new Robber(green, TEAM_SIZE - 1, y++));
+                case 2 -> green.add(new Sniper(green, TEAM_SIZE - 1, y++));
+                case 3 -> green.add(new Wizard(green, TEAM_SIZE - 1, y++));
             }
         }
-        white.forEach(hero -> System.out.println(hero.getInfo()));
-        black.forEach(hero -> System.out.println(hero.getInfo()));
     }
 }

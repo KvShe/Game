@@ -1,4 +1,4 @@
-package Game.Sources;
+package Game.Heroes;
 
 public enum Status {
     STAND,

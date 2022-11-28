@@ -1,9 +1,8 @@
-package Game.Healer;
+package Game.Heroes.Healer;
 
-import Game.Npc;
-import Game.Sources.Status;
+import Game.Heroes.Npc;
+import Game.Heroes.Status;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Healer extends Npc {
